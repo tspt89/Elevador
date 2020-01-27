@@ -136,6 +136,7 @@ public class HomeActivity extends AppCompatActivity {
                 socket = device.createRfcommSocketToServiceRecord(MY_UUID);
                 socket.connect();
                 Log.i("[BLUETOOTH]", "Connected to: " + device.getName());
+                Toast.makeText(HomeActivity.this, "You have connected to Bluetooth", Toast.LENGTH_LONG).show();
             }
             catch(IOException ioe){
                 ioe.printStackTrace();
