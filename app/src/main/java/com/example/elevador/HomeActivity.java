@@ -24,7 +24,7 @@ import java.util.UUID;
 public class HomeActivity extends AppCompatActivity {
 
     Switch aSwitch;
-    SeekBar seekBar;
+    View v;
     BluetoothAdapter adapter;
     BluetoothSocket socket;
     BluetoothDevice device;
@@ -51,16 +51,41 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         aSwitch = findViewById(R.id.switchButton);
-        seekBar = findViewById(R.id.seekBar);
 
         aSwitch.setChecked(false);
 
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                if(aSwitch.isChecked()){
+                    cerrar(v);
+                }else{
+                    abrir(v);
+                }
             }
         });
+    }
+
+    public void cerrar(View v){
+        Log.i("[BLUETOOTH]", "Attempting to send data");
+        if(socket.isConnected() && thread != null){
+            String text = "Cerrar";
+            thread.write(text.getBytes());
+        }
+        else{
+            Toast.makeText(HomeActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void abrir(View v){
+        Log.i("[BLUETOOTH]", "Attempting to send data");
+        if(socket.isConnected() && thread != null){
+            String text = "Abrir";
+            thread.write(text.getBytes());
+        }
+        else{
+            Toast.makeText(HomeActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void subir(View v){
