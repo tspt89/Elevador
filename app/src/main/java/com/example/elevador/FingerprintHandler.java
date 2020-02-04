@@ -54,5 +54,8 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
         if(success){
             button.setEnabled(true);
         }
+        else{
+            button.setEnabled(false);
+        }
     }
 }

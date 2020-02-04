@@ -5,11 +5,13 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.KeyguardManager;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -66,6 +68,18 @@ public class MainActivity extends AppCompatActivity {
             handler.startAuth(fingerprintManager, cryptoObject);
             //button.setEnabled(true);
         }
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity();
+            }
+        });
+    }
+
+    public void openActivity(){
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
     }
 
     protected void generateKey(){
