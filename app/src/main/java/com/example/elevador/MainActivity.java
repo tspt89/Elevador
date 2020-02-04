@@ -10,6 +10,7 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.security.KeyStore;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY_NAME = "my_key";
     private Cipher cipher;
     private FingerprintManager.CryptoObject cryptoObject;
+    Button button;
+    FingerprintHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +39,24 @@ public class MainActivity extends AppCompatActivity {
         fingerprintManager = (FingerprintManager)getSystemService(FINGERPRINT_SERVICE);
         keyguardManager = (KeyguardManager)getSystemService(KEYGUARD_SERVICE);
 
+        button = findViewById(R.id.button);
+
+        //button.setEnabled(false);
+
         if(!keyguardManager.isKeyguardSecure()){
             Toast.makeText(this, "Lock screen security is not enabled", Toast.LENGTH_LONG).show();
+            button.setEnabled(false);
             return;
         }
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) !=
                 PackageManager.PERMISSION_GRANTED){
             Toast.makeText(this, "Fingerprint authentication permission is not enabled", Toast.LENGTH_LONG).show();
+            button.setEnabled(false);
             return;
         }
         if(!fingerprintManager.hasEnrolledFingerprints()){
             Toast.makeText(this, "Register at least one fingerprint in settings", Toast.LENGTH_LONG).show();
+            button.setEnabled(false);
             return;
         }
         generateKey();
@@ -54,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             cryptoObject = new FingerprintManager.CryptoObject(cipher);
             FingerprintHandler handler = new FingerprintHandler(this);
             handler.startAuth(fingerprintManager, cryptoObject);
+            //button.setEnabled(true);
         }
     }
 
@@ -65,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             keyGenerator.init(new KeyGenParameterSpec.Builder(KEY_NAME, KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_CBC).setUserAuthenticationRequired(true).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7).build());
             keyGenerator.generateKey();
+            //button.setEnabled(true);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -77,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             keyStore.load(null);
             SecretKey key = (SecretKey)keyStore.getKey(KEY_NAME, null);
             cipher.init(Cipher.ENCRYPT_MODE, key);
+            //button.setEnabled(true);
             return true;
         }
         catch(Exception e){

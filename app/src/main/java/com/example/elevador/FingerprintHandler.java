@@ -1,10 +1,12 @@
 package com.example.elevador;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.CancellationSignal;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -12,6 +14,7 @@ import androidx.core.app.ActivityCompat;
 public class FingerprintHandler extends FingerprintManager.AuthenticationCallback{
     private CancellationSignal cancellationSignal;
     private Context appContext;
+
 
     public FingerprintHandler(Context context){
         this.appContext = context;
@@ -43,5 +46,13 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     @Override
     public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result){
         Toast.makeText(appContext, "Authentication succeeded", Toast.LENGTH_LONG).show();
+        this.update(true);
+    }
+
+    public void update(Boolean success){
+        Button button = (Button) ((Activity)appContext).findViewById(R.id.button);
+        if(success){
+            button.setEnabled(true);
+        }
     }
 }
