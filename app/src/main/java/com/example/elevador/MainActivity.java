@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        System.out.println("AQUI!!!!");
 
         fingerprintManager = (FingerprintManager)getSystemService(FINGERPRINT_SERVICE);
         keyguardManager = (KeyguardManager)getSystemService(KEYGUARD_SERVICE);
@@ -61,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
             button.setEnabled(false);
             return;
         }
+        System.out.println("AQUI!!!!");
         generateKey();
+        System.out.println("AQUI!!!!");
         if(initCipher()) {
             cryptoObject = new FingerprintManager.CryptoObject(cipher);
             FingerprintHandler handler = new FingerprintHandler(this);

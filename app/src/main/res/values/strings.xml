@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Elevador</string>
+    <string name="unlock">Desbloqueo</string>
+    <string name="confirm_pattern">Confirma tu PIN, Patrón o Contraseña</string>
 </resources>
